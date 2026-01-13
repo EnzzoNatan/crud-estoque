@@ -1,6 +1,8 @@
 package br.edu.ifsc.estoquecrud.service;
 
+import br.edu.ifsc.estoquecrud.entity.Categoria;
 import br.edu.ifsc.estoquecrud.entity.Produto;
+import br.edu.ifsc.estoquecrud.repository.CategoriaRepository;
 import br.edu.ifsc.estoquecrud.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,10 +15,16 @@ public class ProdutoService {
     @Autowired
     private ProdutoRepository produtoRepository;
 
+    private CategoriaRepository categoriaRepository;
+
     //Cria um produto
-    public String criarProduto(Produto produto,Long categoriaId) {
-        this.produtoRepository.save(produto);
-        return "Produto criado com sucesso";
+    public Produto criarProduto(Produto produto,Long categoriaId) {
+        Categoria categoria = categoriaRepository.findById(categoriaId)
+                .orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
+
+        produto.setCategoria(categoria);
+
+        return produtoRepository.save(produto);
     }
 
     //Lista todos os produtos
@@ -55,6 +63,13 @@ public class ProdutoService {
         produto.setQuantidade(dadosAtualizados.getQuantidade());
 
         return produtoRepository.save(produto);
+    }
+
+    //Deletar um produto
+    public String delete(Long id){
+        produtoRepository.deleteById(id);
+
+        return "Produto deletado com sucesso";
     }
 
 
