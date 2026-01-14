@@ -18,13 +18,10 @@ public class ProdutoService {
     private CategoriaRepository categoriaRepository;
 
     //Cria um produto
-    public Produto criarProduto(Produto produto,Long categoriaId) {
-        Categoria categoria = categoriaRepository.findById(categoriaId)
-                .orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
+    public String criarProduto(Produto produto) {
+        this.produtoRepository.save(produto);
 
-        produto.setCategoria(categoria);
-
-        return produtoRepository.save(produto);
+        return "Produto criado com sucesso";
     }
 
     //Lista todos os produtos
