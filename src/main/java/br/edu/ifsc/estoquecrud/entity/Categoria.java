@@ -23,6 +23,6 @@ public class Categoria {
     private String descricao;
     private Boolean ativo = true;
 
-    @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
     private List<Produto> produto;
 }
