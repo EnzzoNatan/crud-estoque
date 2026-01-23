@@ -18,13 +18,9 @@ public class ProdutoController {
     private ProdutoService produtoService;
 
     @PostMapping("/criar")
-    public ResponseEntity<String> criarProduto(@RequestBody Produto produto){
-        try{
-            String mensagem = this.produtoService.criarProduto(produto);
-            return new ResponseEntity<>(mensagem, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>("null", HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<Produto> criarProduto(@RequestBody Produto produto) {
+        Produto produtoSalvo = produtoService.criarProduto(produto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(produtoSalvo);
     }
 
     @GetMapping("/findAll")

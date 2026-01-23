@@ -7,6 +7,7 @@ import br.edu.ifsc.estoquecrud.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -14,15 +15,41 @@ public class ProdutoService {
 
     @Autowired
     private ProdutoRepository produtoRepository;
-
-    private CategoriaRepository categoriaRepository;
+    @Autowired
+     private CategoriaRepository categoriaRepository;
 
     //Cria um produto
-    public String criarProduto(Produto produto) {
-        this.produtoRepository.save(produto);
 
-        return "Produto criado com sucesso";
+
+    public Produto criarProduto(Produto produto) {
+
+        // 🔒 Validação de preço
+        if (produto.getPreco() == null || produto.getPreco().compareTo(BigDecimal.ZERO) < 0) {
+            throw new RuntimeException("Preço do produto não pode ser negativo ou nulo");
+        }
+
+        // 🔒 Validação de quantidade
+        if (produto.getQuantidade() == null || produto.getQuantidade() < 0) {
+            throw new RuntimeException("Quantidade do produto não pode ser negativa");
+        }
+
+        // 🔒 Validação de categoria
+        if (produto.getCategoria() == null || produto.getCategoria().getId() == null) {
+            throw new RuntimeException("Categoria é obrigatória");
+        }
+
+        Long categoriaId = produto.getCategoria().getId();
+
+        Categoria categoria = categoriaRepository.findById(categoriaId)
+                .orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
+
+
+        produtoRepository.save(produto);
+        // ✅ SALVA DE VERDADE
+        return produtoRepository.save(produto);
+
     }
+
 
     //Lista todos os produtos
     public List<Produto> findAll(){
@@ -68,9 +95,5 @@ public class ProdutoService {
 
         return "Produto deletado com sucesso";
     }
-
-
-
-
 
 }
