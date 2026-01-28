@@ -1,6 +1,8 @@
 package br.edu.ifsc.estoquecrud.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,8 +23,10 @@ public class Categoria {
     private Long id;
     private String nome;
     private String descricao;
-    private Boolean ativo = true;
+
 
     @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("categoria")
     private List<Produto> produto;
+
 }

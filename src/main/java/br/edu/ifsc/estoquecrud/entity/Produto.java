@@ -1,5 +1,6 @@
 package br.edu.ifsc.estoquecrud.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,9 +23,11 @@ public class Produto {
     private String descricao;
     private BigDecimal preco;
     private Integer quantidade;
-    private Boolean ativo = true;
 
     @ManyToOne
     @JoinColumn(name = "categoria_id")
+    @JsonIgnoreProperties("produto")
     private Categoria categoria;
+
+
 }
