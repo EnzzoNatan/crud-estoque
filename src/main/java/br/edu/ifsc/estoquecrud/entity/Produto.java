@@ -28,6 +28,4 @@ public class Produto {
     @JoinColumn(name = "categoria_id")
     @JsonIgnoreProperties("produto")
     private Categoria categoria;
-
-
 }

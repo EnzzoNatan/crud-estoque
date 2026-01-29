@@ -29,7 +29,7 @@ public class ProdutoService {
         }
 
         // 🔒 Validação de quantidade
-        if (produto.getQuantidade() == null || produto.getQuantidade() < 0) {
+        if (produto.getQuantidade() == null || produto.getQuantidade() <= 0) {
             throw new RuntimeException("Quantidade do produto não pode ser negativa");
         }
 
@@ -43,6 +43,7 @@ public class ProdutoService {
         Categoria categoria = categoriaRepository.findById(categoriaId)
                 .orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
 
+        produto.setCategoria(categoria);
 
         produtoRepository.save(produto);
         // ✅ SALVA DE VERDADE
@@ -79,14 +80,43 @@ public class ProdutoService {
     //Atualiza um pedido
     public Produto atualizar(Long id, Produto dadosAtualizados) {
 
-        Produto produto = findById(id);
+        //Garante que o produto existe
+        Produto produto = produtoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
 
+        //Validação de preço
+        if (dadosAtualizados.getPreco() == null ||
+                dadosAtualizados.getPreco().compareTo(BigDecimal.ZERO) <= 0) {
+            throw new RuntimeException("Preço do produto não pode ser negativo ou nulo");
+        }
+
+        //Validação de quantidade
+        if (dadosAtualizados.getQuantidade() == null ||
+                dadosAtualizados.getQuantidade() <= 0) {
+            throw new RuntimeException("Quantidade do produto não pode ser negativa");
+        }
+
+        //Validação de categoria
+        if (dadosAtualizados.getCategoria() == null ||
+                dadosAtualizados.getCategoria().getId() == null) {
+            throw new RuntimeException("Categoria é obrigatória");
+        }
+
+        Categoria categoria = categoriaRepository
+                .findById(dadosAtualizados.getCategoria().getId())
+                .orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
+
+        // Atualiza campos
         produto.setNome(dadosAtualizados.getNome());
         produto.setDescricao(dadosAtualizados.getDescricao());
         produto.setPreco(dadosAtualizados.getPreco());
         produto.setQuantidade(dadosAtualizados.getQuantidade());
 
+        // Atualiza relação corretamente
+        produto.setCategoria(categoria);
+
         return produtoRepository.save(produto);
+
     }
 
     //Deletar um produto
