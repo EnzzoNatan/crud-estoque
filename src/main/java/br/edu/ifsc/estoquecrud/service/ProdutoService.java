@@ -19,8 +19,6 @@ public class ProdutoService {
      private CategoriaRepository categoriaRepository;
 
     //Cria um produto
-
-
     public Produto criarProduto(Produto produto) {
 
         // 🔒 Validação de preço
@@ -46,7 +44,6 @@ public class ProdutoService {
         produto.setCategoria(categoria);
 
         produtoRepository.save(produto);
-        // ✅ SALVA DE VERDADE
         return produtoRepository.save(produto);
 
     }

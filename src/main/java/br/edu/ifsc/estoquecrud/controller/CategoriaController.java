@@ -18,7 +18,7 @@ public class CategoriaController {
     @Autowired
     private CategoriaService categoriaService;
 
-    @PostMapping("/criar")
+    @PostMapping
     public ResponseEntity<String> criar(@RequestBody Categoria categoria) {
         try {
             String mensagem = this.categoriaService.criar(categoria);
@@ -28,7 +28,7 @@ public class CategoriaController {
         }
     }
 
-    @GetMapping("/findAll")
+    @GetMapping
     public ResponseEntity<List<Categoria>> findAll() {
         try{
             List<Categoria> categoria = categoriaService.findAll();
@@ -38,7 +38,7 @@ public class CategoriaController {
         }
     }
 
-    @GetMapping("/findById/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Categoria> findById(@PathVariable Long id) {
         try {
             Categoria categoria = this.categoriaService.findById(id);
@@ -48,7 +48,7 @@ public class CategoriaController {
         }
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<String> update(@RequestBody Categoria categoria,
                                          @PathVariable Long id ) {
         try{
@@ -59,7 +59,7 @@ public class CategoriaController {
         }
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         try{
             String mensagem = this.categoriaService.delete(id);

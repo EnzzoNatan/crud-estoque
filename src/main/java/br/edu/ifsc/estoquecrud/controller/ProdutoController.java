@@ -17,13 +17,13 @@ public class ProdutoController {
     @Autowired
     private ProdutoService produtoService;
 
-    @PostMapping("/criar")
+    @PostMapping
     public ResponseEntity<Produto> criarProduto(@RequestBody Produto produto) {
         Produto produtoSalvo = produtoService.criarProduto(produto);
         return ResponseEntity.status(HttpStatus.CREATED).body(produtoSalvo);
     }
 
-    @GetMapping("/findAll")
+    @GetMapping
     public ResponseEntity<List<Produto>>findAll(){
         try{
             List<Produto> produtros = this.produtoService.findAll();
@@ -33,7 +33,7 @@ public class ProdutoController {
         }
     }
 
-    @GetMapping("/findById/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Produto> findById(@PathVariable Long id){
         try{
             Produto produto = this.produtoService.findById(id);
@@ -53,7 +53,7 @@ public class ProdutoController {
         }
     }
 
-    @PutMapping("/atualizar/{id}")
+    @PutMapping("/{id}")
 
     public ResponseEntity<Produto> atualizar(@PathVariable Long id, @RequestBody Produto dadosAtualizados) {
 
@@ -62,7 +62,7 @@ public class ProdutoController {
     }
 
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteById(@PathVariable Long id){
         try{
             String mensagem = this.produtoService.delete(id);

@@ -16,8 +16,6 @@ public class CategoriaService {
     @Autowired
     private CategoriaRepository categoriaRepository;
 
-
-
     //Cria categoria
     public String criar(Categoria categoria) {
 
