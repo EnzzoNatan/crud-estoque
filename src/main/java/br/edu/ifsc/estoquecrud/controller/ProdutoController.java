@@ -65,12 +65,15 @@ public class ProdutoController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteById(@PathVariable Long id){
         try{
-            String mensagem = this.produtoService.delete(id);
-            return new ResponseEntity<>(mensagem, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>("null", HttpStatus.BAD_REQUEST);
+            this.produtoService.delete(id);
+            return ResponseEntity.ok("Produto deletado com sucesso");
+
+        } catch (RuntimeException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(e.getMessage());
         }
     }
+
 
 
 }

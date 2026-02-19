@@ -6,7 +6,9 @@ import br.edu.ifsc.estoquecrud.exception.RegraNegocioException;
 import br.edu.ifsc.estoquecrud.repository.CategoriaRepository;
 import br.edu.ifsc.estoquecrud.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -48,9 +50,12 @@ public class CategoriaService {
     }
 
     //Apaga a categoria
-    public String delete(Long id) {
-        this.categoriaRepository.deleteById(id);
-        return "Categoria deletada com sucesso";
+    public void delete(Long id) {
+        if(!categoriaRepository.existsById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Categoria não encontrada");
+        }
+
+        categoriaRepository.deleteById(id);
     }
 }
 

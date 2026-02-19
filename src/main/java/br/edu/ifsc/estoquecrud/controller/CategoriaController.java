@@ -61,11 +61,13 @@ public class CategoriaController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
-        try{
-            String mensagem = this.categoriaService.delete(id);
-            return new ResponseEntity<>(mensagem, HttpStatus.OK);
-        } catch (Exception e){
-            return new ResponseEntity<>("null", HttpStatus.BAD_REQUEST);
+        try {
+            this.categoriaService.delete(id);
+            return ResponseEntity.ok("Categoria deletada com sucesso");
+
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(e.getMessage());
         }
     }
 }
