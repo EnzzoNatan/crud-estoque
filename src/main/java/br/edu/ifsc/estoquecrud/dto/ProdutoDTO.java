@@ -1,16 +1,9 @@
 package br.edu.ifsc.estoquecrud.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
+import lombok.Data;
 import java.math.BigDecimal;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 public class ProdutoDTO {
 
     private Long id;
@@ -19,6 +12,6 @@ public class ProdutoDTO {
     private BigDecimal preco;
     private Integer quantidade;
 
-    private Long categoriaID;
-    private String CategoriaNome;
+    private Long categoriaId;
+    private String categoriaNome;
 }

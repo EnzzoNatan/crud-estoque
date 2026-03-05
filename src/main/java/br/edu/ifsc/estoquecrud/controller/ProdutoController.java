@@ -1,5 +1,6 @@
 package br.edu.ifsc.estoquecrud.controller;
 
+import br.edu.ifsc.estoquecrud.dto.ProdutoDTO;
 import br.edu.ifsc.estoquecrud.entity.Produto;
 import br.edu.ifsc.estoquecrud.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,39 +19,35 @@ public class ProdutoController {
     private ProdutoService produtoService;
 
     @PostMapping
-    public ResponseEntity<Produto> criarProduto(@RequestBody Produto produto) {
-        Produto produtoSalvo = produtoService.criarProduto(produto);
+    public ResponseEntity<ProdutoDTO> criarProduto(@RequestBody ProdutoDTO dto){
+
+        ProdutoDTO produtoSalvo = produtoService.criarProduto(dto);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(produtoSalvo);
     }
 
     @GetMapping
-    public ResponseEntity<List<Produto>>findAll(){
-        try{
-            List<Produto> produtros = this.produtoService.findAll();
-            return new ResponseEntity<>(produtros, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>((HttpHeaders) null, HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<List<ProdutoDTO>> findAll(){
+
+        List<ProdutoDTO> produtos = produtoService.findAll();
+
+        return ResponseEntity.ok(produtos);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Produto> findById(@PathVariable Long id){
-        try{
-            Produto produto = this.produtoService.findById(id);
-            return new ResponseEntity<>(produto, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>((HttpHeaders) null, HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<ProdutoDTO> findById(@PathVariable Long id){
+
+        ProdutoDTO produto = produtoService.findById(id);
+
+        return ResponseEntity.ok(produto);
     }
 
     @GetMapping("/findByCategoria/{id}")
-    public ResponseEntity<List<Produto>> findByCategoria(@PathVariable Long id){
-        try{
-            List<Produto> produtos = this.produtoService.findByCategoria(id);
-            return new ResponseEntity<>(produtos, HttpStatus.OK);
-        }  catch (Exception e) {
-            return new ResponseEntity<>((HttpHeaders) null, HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<List<ProdutoDTO>> findByCategoria(@PathVariable Long id){
+
+        List<ProdutoDTO> produtos = produtoService.findByCategoria(id);
+
+        return ResponseEntity.ok(produtos);
     }
 
     @PutMapping("/{id}")
