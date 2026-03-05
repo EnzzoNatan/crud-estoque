@@ -2,9 +2,7 @@ package br.edu.ifsc.estoquecrud.service;
 
 
 import br.edu.ifsc.estoquecrud.entity.Categoria;
-import br.edu.ifsc.estoquecrud.exception.RegraNegocioException;
 import br.edu.ifsc.estoquecrud.repository.CategoriaRepository;
-import br.edu.ifsc.estoquecrud.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
